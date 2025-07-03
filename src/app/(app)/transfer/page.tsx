@@ -58,13 +58,24 @@ export default function TransferPage() {
         }
     }, [activeTab, toast]);
     
+    const handleScan = () => {
+        toast({
+            title: 'QR Code Scanned!',
+            description: 'UPI details have been filled in.',
+            variant: 'success'
+        });
+        setUpiId('scanned-upi@paymate');
+        setUpiAmount('750');
+        setActiveTab('upi');
+    };
+
     return (
         <div className="p-4 sm:p-6 lg:p-8 h-full">
             <header className="mb-8">
                 <h1 className="text-3xl font-bold tracking-tight">Money Transfer</h1>
                 <p className="text-muted-foreground">Securely send money to anyone, anytime.</p>
             </header>
-            <Tabs defaultValue="upi" className="max-w-2xl mx-auto" onValueChange={setActiveTab}>
+            <Tabs value={activeTab} className="max-w-2xl mx-auto" onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-3 bg-muted/50 p-1 h-auto">
                     <TabsTrigger value="upi" className="py-2.5 data-[state=active]:bg-background data-[state=active]:shadow-md"><User className="mr-2 h-4 w-4" /> UPI ID</TabsTrigger>
                     <TabsTrigger value="bank" className="py-2.5 data-[state=active]:bg-background data-[state=active]:shadow-md"><Landmark className="mr-2 h-4 w-4" /> Bank Account</TabsTrigger>
@@ -155,6 +166,12 @@ export default function TransferPage() {
                                 </Alert>
                              )}
                         </CardContent>
+                        <CardFooter>
+                            <Button className="w-full" size="lg" disabled={!hasCameraPermission} onClick={handleScan}>
+                                <QrCode className="mr-2 h-4 w-4" />
+                                Simulate Scan
+                            </Button>
+                        </CardFooter>
                     </Card>
                 </TabsContent>
             </Tabs>
