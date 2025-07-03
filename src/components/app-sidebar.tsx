@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import * as React from 'react';
 import {
   Sidebar,
   SidebarHeader,
@@ -34,6 +35,12 @@ const menuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  // Defer setting the name to the client-side to avoid hydration mismatch
+  const [userName, setUserName] = React.useState('Alex Turner');
+
+  React.useEffect(() => {
+    setUserName('Krishanu Gharami');
+  }, []);
 
   return (
     <Sidebar>
@@ -75,7 +82,7 @@ export function AppSidebar() {
             <SidebarMenuItem>
                 <SidebarMenuButton variant="ghost" className="justify-start">
                     <UserCircle/>
-                    <span>Krishanu Gharami</span>
+                    <span>{userName}</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
