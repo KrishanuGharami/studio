@@ -11,8 +11,14 @@ import {
 } from '@paypal/react-paypal-js'
 import { useToast } from '@/hooks/use-toast'
 
-export const PayPalButtonsWrapper = ({ amount }: { amount: string }) => {
+export const PayPalButtonsWrapper = ({ amount: inrAmount }: { amount: string }) => {
   const { toast } = useToast()
+
+  // For this prototype, we'll use a fixed conversion rate.
+  // In a real-world application, you would fetch this from a reliable currency conversion API.
+  const INR_TO_USD_RATE = 83;
+  const amountInUsd = (parseFloat(inrAmount) / INR_TO_USD_RATE).toFixed(2);
+
 
   const createOrder = (data: CreateOrderData, actions: CreateOrderActions) => {
     // This function sets up the details of the transaction, including the amount.
@@ -21,7 +27,7 @@ export const PayPalButtonsWrapper = ({ amount }: { amount: string }) => {
       purchase_units: [
         {
           amount: {
-            value: amount,
+            value: amountInUsd,
             currency_code: 'USD',
           },
         },
