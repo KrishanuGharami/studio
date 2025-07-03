@@ -1,13 +1,15 @@
 // src/app/api/payment/razorpay/create-order/route.ts
 import { NextResponse } from 'next/server';
-import Razorpay from 'razorpay';
+// import Razorpay from 'razorpay'; // No longer needed for mock
 
 export async function POST(request: Request) {
   try {
     const { amount } = await request.json();
 
     // This is a mock implementation.
-    // In a real app, initialize this securely and handle errors properly.
+    // In a real app, you would use the Razorpay SDK to create an order
+    // and return the order object.
+    /*
     const razorpay = new Razorpay({
         key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
         key_secret: process.env.RAZORPAY_KEY_SECRET!,
@@ -19,7 +21,6 @@ export async function POST(request: Request) {
       receipt: `receipt_order_${Date.now()}`,
     };
 
-    // In a real app, this would be a real API call.
     const order = await razorpay.orders.create(options);
     
     if (!order) {
@@ -27,6 +28,21 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(order);
+    */
+
+    // MOCK RESPONSE
+    // This avoids calling the real Razorpay API which would fail with placeholder keys.
+    const mockOrder = {
+        id: `mock_order_${Date.now()}`,
+        amount: amount,
+        currency: 'INR',
+        status: 'created',
+    };
+
+    console.log("Created mock Razorpay order:", mockOrder);
+
+    return NextResponse.json(mockOrder);
+
   } catch (error: any) {
     console.error(error);
     return new NextResponse(error.message, { status: 500 });
