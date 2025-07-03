@@ -13,25 +13,31 @@ import { useToast } from '@/hooks/use-toast'
 export const PayPalButtonsWrapper = ({ amount }: { amount: string }) => {
   const { toast } = useToast()
 
-  const createOrder = async (data: CreateOrderData, actions: CreateOrderActions) => {
-    // Mock API call to create an order
-    const res = await fetch('/api/payment/paypal/create-order', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ amount }),
-    })
-    const order = await res.json()
-    return order.id
-  }
+  const createOrder = (data: CreateOrderData, actions: CreateOrderActions) => {
+    // This function sets up the details of the transaction, including the amount.
+    // It's called when the PayPal button is clicked.
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: amount,
+            currency_code: 'INR',
+          },
+        },
+      ],
+    });
+  };
 
-  const onApprove = async (data: OnApproveData, actions: OnApproveActions) => {
-    // This is where you would capture the payment on your server
-    // For now, we'll just show a success message
-    toast({
-      variant: 'success',
-      title: 'Payment Successful!',
-      description: `PayPal Order ID: ${data.orderID}`,
-    })
+  const onApprove = (data: OnApproveData, actions: OnApproveActions) => {
+    // This function captures the funds from the transaction.
+    // It is called after the buyer approves the payment.
+    return actions.order!.capture().then(function (details) {
+      toast({
+        variant: 'success',
+        title: 'Payment Successful!',
+        description: `PayPal Order ID: ${data.orderID}`,
+      })
+    });
   }
   
   const onError = (err: any) => {
