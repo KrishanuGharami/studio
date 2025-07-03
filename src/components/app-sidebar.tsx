@@ -75,7 +75,7 @@ export function AppSidebar() {
             <SidebarMenuItem>
                 <SidebarMenuButton variant="ghost" className="justify-start">
                     <UserCircle/>
-                    <span>Alex Turner</span>
+                    <span>Krishanu Gharami</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>

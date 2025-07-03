@@ -100,8 +100,8 @@ export const RazorpayButton = ({ amount }: { amount: number }) => {
                 });
             },
             prefill: {
-                name: 'Alex Turner',
-                email: 'alex.turner@example.com',
+                name: 'Krishanu Gharami',
+                email: 'krishanu.gharami@example.com',
                 contact: '9999999999',
             },
             theme: {
