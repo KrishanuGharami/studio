@@ -1,3 +1,4 @@
+
 'use client'
 
 import {
@@ -21,7 +22,7 @@ export const PayPalButtonsWrapper = ({ amount }: { amount: string }) => {
         {
           amount: {
             value: amount,
-            currency_code: 'INR',
+            currency_code: 'USD',
           },
         },
       ],
@@ -52,8 +53,8 @@ export const PayPalButtonsWrapper = ({ amount }: { amount: string }) => {
   return (
     <PayPalScriptProvider
       options={{
-        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
-        currency: 'INR',
+        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || 'test',
+        currency: 'USD',
       }}
     >
       <PayPalButtons
