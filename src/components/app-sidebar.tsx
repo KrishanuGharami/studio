@@ -35,11 +35,20 @@ const menuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const [userName, setUserName] = React.useState('Krishanu Gharami');
+  const [userName, setUserName] = React.useState('User');
 
   React.useEffect(() => {
-    // This is to prevent hydration mismatch
-    setUserName('Krishanu Gharami');
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+        try {
+            const user = JSON.parse(storedUser);
+            if (user && user.fullName) {
+                setUserName(user.fullName);
+            }
+        } catch (e) {
+            console.error("Failed to parse user from localStorage", e);
+        }
+    }
   }, []);
 
   return (

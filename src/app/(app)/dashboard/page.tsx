@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -13,11 +13,26 @@ import { Label } from "@/components/ui/label"
 export default function DashboardPage() {
   const [upiId, setUpiId] = useState('');
   const [amount, setAmount] = useState('');
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+        try {
+            const user = JSON.parse(storedUser);
+            if (user && user.fullName) {
+                setUserName(user.fullName);
+            }
+        } catch (e) {
+            console.error("Failed to parse user from localStorage", e);
+        }
+    }
+  }, []);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-8">
       <header>
-        <h1 className="text-3xl font-bold tracking-tight">Welcome back, Krishanu!</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Welcome back, {userName}!</h1>
         <p className="text-muted-foreground">Here&apos;s your financial overview for today.</p>
       </header>
       
