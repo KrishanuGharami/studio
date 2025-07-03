@@ -1,11 +1,19 @@
+'use client'
+
+import { useState } from "react"
+import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowUpRight, QrCode, User, Repeat, Wallet } from "lucide-react"
 import { SmartSuggestions } from "./smart-suggestions"
 import { RecentTransactions } from "./recent-transactions"
+import { Label } from "@/components/ui/label"
 
 export default function DashboardPage() {
+  const [upiId, setUpiId] = useState('');
+  const [amount, setAmount] = useState('');
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-8">
       <header>
@@ -35,13 +43,35 @@ export default function DashboardPage() {
               <CardDescription>Quickly send money to your contacts or any UPI ID.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="space-y-2">
+                 <Label htmlFor="upi-id">Recipient UPI ID</Label>
                 <div className="relative flex-grow">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
-                  <Input placeholder="Enter UPI ID or Mobile Number" className="pl-10 h-11" />
+                  <Input 
+                    id="upi-id"
+                    placeholder="Enter UPI ID or Mobile Number" 
+                    className="pl-10 h-11" 
+                    value={upiId}
+                    onChange={(e) => setUpiId(e.target.value)}
+                  />
                 </div>
-                <Button size="lg" className="h-11">Send <ArrowUpRight className="ml-2" /></Button>
               </div>
+               <div className="space-y-2">
+                 <Label htmlFor="amount">Amount (₹)</Label>
+                 <Input 
+                  id="amount"
+                  type="number" 
+                  placeholder="0.00" 
+                  className="h-11" 
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  />
+               </div>
+              <Button asChild size="lg" className="w-full h-11" disabled={!upiId || !amount || parseFloat(amount) <= 0}>
+                <Link href={`/payment?amount=${amount}&recipient=${encodeURIComponent(upiId)}`}>
+                  Send <ArrowUpRight className="ml-2" />
+                </Link>
+              </Button>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button variant="outline" className="w-full">
                   <QrCode className="mr-2" />

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -17,6 +18,14 @@ export default function TransferPage() {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
     const [activeTab, setActiveTab] = useState("upi");
+
+    const [upiId, setUpiId] = useState('');
+    const [upiAmount, setUpiAmount] = useState('');
+    const [accNumber, setAccNumber] = useState('');
+    const [ifsc, setIfsc] = useState('');
+    const [accHolder, setAccHolder] = useState('');
+    const [bankAmount, setBankAmount] = useState('');
+
 
     useEffect(() => {
         if (activeTab === 'qr') {
@@ -70,15 +79,19 @@ export default function TransferPage() {
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
                                 <Label htmlFor="upi-id">Recipient UPI ID</Label>
-                                <Input id="upi-id" placeholder="name@bank" className="h-11" />
+                                <Input id="upi-id" placeholder="name@bank" className="h-11" value={upiId} onChange={(e) => setUpiId(e.target.value)} />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="upi-amount">Amount (₹)</Label>
-                                <Input id="upi-amount" type="number" placeholder="0.00" className="h-11" />
+                                <Input id="upi-amount" type="number" placeholder="0.00" className="h-11" value={upiAmount} onChange={(e) => setUpiAmount(e.target.value)} />
                             </div>
                         </CardContent>
                         <CardFooter>
-                             <Button className="w-full" size="lg">Verify & Proceed <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
+                             <Button asChild className="w-full" size="lg" disabled={!upiId || !upiAmount || parseFloat(upiAmount) <= 0}>
+                                <Link href={`/payment?amount=${upiAmount}&recipient=${encodeURIComponent(upiId)}`}>
+                                    Verify & Proceed <ArrowUpRight className="ml-2 h-4 w-4" />
+                                </Link>
+                             </Button>
                         </CardFooter>
                     </Card>
                 </TabsContent>
@@ -91,23 +104,27 @@ export default function TransferPage() {
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
                                 <Label htmlFor="acc-number">Account Number</Label>
-                                <Input id="acc-number" placeholder="Enter account number" className="h-11"/>
+                                <Input id="acc-number" placeholder="Enter account number" className="h-11" value={accNumber} onChange={(e) => setAccNumber(e.target.value)} />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="ifsc">IFSC Code</Label>
-                                <Input id="ifsc" placeholder="Enter IFSC code" className="h-11"/>
+                                <Input id="ifsc" placeholder="Enter IFSC code" className="h-11" value={ifsc} onChange={(e) => setIfsc(e.target.value)} />
                             </div>
                              <div className="space-y-2">
                                 <Label htmlFor="acc-holder">Account Holder Name</Label>
-                                <Input id="acc-holder" placeholder="Enter account holder name" className="h-11"/>
+                                <Input id="acc-holder" placeholder="Enter account holder name" className="h-11" value={accHolder} onChange={(e) => setAccHolder(e.target.value)} />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="bank-amount">Amount (₹)</Label>
-                                <Input id="bank-amount" type="number" placeholder="0.00" className="h-11"/>
+                                <Input id="bank-amount" type="number" placeholder="0.00" className="h-11" value={bankAmount} onChange={(e) => setBankAmount(e.target.value)} />
                             </div>
                         </CardContent>
                          <CardFooter>
-                            <Button className="w-full" size="lg">Proceed to Pay <ArrowUpRight className="ml-2 h-4 w-4" /></Button>
+                            <Button asChild className="w-full" size="lg" disabled={!accNumber || !ifsc || !accHolder || !bankAmount || parseFloat(bankAmount) <= 0}>
+                                <Link href={`/payment?amount=${bankAmount}&recipient=${encodeURIComponent(accHolder)}&description=${encodeURIComponent('A/C: ' + accNumber)}`}>
+                                    Proceed to Pay <ArrowUpRight className="ml-2 h-4 w-4" />
+                                </Link>
+                            </Button>
                          </CardFooter>
                     </Card>
                 </TabsContent>

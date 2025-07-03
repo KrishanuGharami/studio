@@ -3,14 +3,14 @@ import { Smartphone, Wifi, Tv, Droplets, Lightbulb, Flame, Phone, Fuel } from 'l
 import Link from "next/link"
 
 const billCategories = [
-  { name: 'Mobile Recharge', icon: Smartphone, href: '#' },
-  { name: 'Broadband', icon: Wifi, href: '#' },
-  { name: 'DTH Recharge', icon: Tv, href: '#' },
-  { name: 'Water Bill', icon: Droplets, href: '#' },
-  { name: 'Electricity', icon: Lightbulb, href: '#' },
-  { name: 'Piped Gas', icon: Flame, href: '#' },
-  { name: 'Landline', icon: Phone, href: '#' },
-  { name: 'LPG Cylinder', icon: Fuel, href: '#' },
+  { name: 'Mobile Recharge', icon: Smartphone, href: '/payment?amount=299&description=Mobile%20Recharge' },
+  { name: 'Broadband', icon: Wifi, href: '/payment?amount=799&description=Broadband%20Bill' },
+  { name: 'DTH Recharge', icon: Tv, href: '/payment?amount=350&description=DTH%20Recharge' },
+  { name: 'Water Bill', icon: Droplets, href: '/payment?amount=500&description=Water%20Bill' },
+  { name: 'Electricity', icon: Lightbulb, href: '/payment?amount=1250&description=Electricity%20Bill' },
+  { name: 'Piped Gas', icon: Flame, href: '/payment?amount=800&description=Piped%20Gas' },
+  { name: 'Landline', icon: Phone, href: '/payment?amount=450&description=Landline%20Bill' },
+  { name: 'LPG Cylinder', icon: Fuel, href: '/payment?amount=950&description=LPG%20Cylinder' },
 ];
 
 

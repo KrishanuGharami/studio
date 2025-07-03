@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { getSmartSuggestions, type SmartSuggestionsOutput } from '@/ai/flows/smart-transaction-suggestions';
 import { Bot, Zap, ArrowRight, ShoppingCart, Tv, Wifi } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import Link from 'next/link';
 
 // Mock data for recent transactions
 const mockRecentTransactions = [
@@ -63,6 +64,7 @@ export function SmartSuggestions() {
             {
                 transactionType: 'bill',
                 merchantName: 'Electricity Bill',
+                amount: 1250,
                 description: 'Pay your electricity bill to avoid late fees.'
             },
             {
@@ -116,7 +118,11 @@ export function SmartSuggestions() {
                                 <p className="text-sm text-muted-foreground">{suggestion.description}</p>
                             </div>
                         </div>
-                         <Button size="sm" className="self-end">Pay Now <ArrowRight className="ml-2 h-4 w-4" /></Button>
+                         <Button asChild size="sm" className="self-end">
+                            <Link href={`/payment?amount=${suggestion.amount || 200}&description=${encodeURIComponent(suggestion.merchantName || suggestion.transactionType)}`}>
+                                Pay Now <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                         </Button>
                     </div>
                 )
             })}
