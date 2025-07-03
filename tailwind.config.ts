@@ -16,6 +16,7 @@ export default {
       },
       colors: {
         background: 'hsl(var(--background))',
+        'background-end': 'hsl(var(--background-end))',
         foreground: 'hsl(var(--foreground))',
         card: {
           DEFAULT: 'hsl(var(--card))',
@@ -44,6 +45,14 @@ export default {
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
+        },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
+        },
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
+          foreground: 'hsl(var(--warning-foreground))',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
