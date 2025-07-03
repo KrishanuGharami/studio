@@ -22,6 +22,7 @@ import {
   LogOut,
   Wallet,
 } from 'lucide-react';
+import { ThemeToggle } from './theme-toggle';
 
 const menuItems = [
   { href: '/dashboard', label: 'Home', icon: Home },
@@ -37,11 +38,16 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center gap-3 p-2">
-          <div className="p-2.5 rounded-lg bg-primary text-primary-foreground">
-            <Wallet size={24} />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 p-2">
+            <div className="p-2.5 rounded-lg bg-primary text-primary-foreground">
+              <Wallet size={24} />
+            </div>
+            <h1 className="text-2xl font-bold text-primary group-data-[collapsible=icon]:hidden">PayMate</h1>
           </div>
-          <h1 className="text-2xl font-bold text-primary">PayMate</h1>
+          <div className="p-2 group-data-[collapsible=icon]:hidden">
+            <ThemeToggle />
+          </div>
         </div>
       </SidebarHeader>
       <SidebarContent className="p-2">
