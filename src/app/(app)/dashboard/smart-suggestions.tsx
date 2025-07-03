@@ -33,6 +33,10 @@ export function SmartSuggestions() {
 
   useEffect(() => {
     async function fetchSuggestions() {
+      // The AI-powered suggestions are disabled by default
+      // as they require a valid API key.
+      // If you have a valid GEMINI_API_KEY, you can uncomment the following block.
+      /*
       try {
         setLoading(true);
         const result = await getSmartSuggestions({
@@ -45,6 +49,32 @@ export function SmartSuggestions() {
       } finally {
         setLoading(false);
       }
+      */
+      
+      // Using mock data to display the component.
+      const mockSuggestions: SmartSuggestionsOutput = {
+        suggestedTransactions: [
+            {
+                transactionType: 'recharge',
+                merchantName: 'Mobile Recharge',
+                amount: 299,
+                description: 'Your monthly mobile plan might be due for a recharge.'
+            },
+            {
+                transactionType: 'bill',
+                merchantName: 'Electricity Bill',
+                description: 'Pay your electricity bill to avoid late fees.'
+            },
+            {
+                transactionType: 'payment',
+                merchantName: 'Starbucks',
+                amount: 450,
+                description: 'Your usual coffee order.'
+            }
+        ]
+      };
+      setSuggestions(mockSuggestions);
+      setLoading(false);
     }
     fetchSuggestions();
   }, []);
