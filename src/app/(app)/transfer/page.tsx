@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { User, Landmark, QrCode, ArrowUpRight, CameraOff, AlertCircle } from "lucide-react"
+import { User, Landmark, QrCode, ArrowUpRight, CameraOff, AlertCircle, Upload } from "lucide-react"
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -16,6 +16,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 export default function TransferPage() {
     const { toast } = useToast();
     const videoRef = useRef<HTMLVideoElement>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
     const [activeTab, setActiveTab] = useState("upi");
 
@@ -67,6 +68,25 @@ export default function TransferPage() {
         setUpiId('scanned-upi@paymate');
         setUpiAmount('750');
         setActiveTab('upi');
+    };
+
+    const handleUploadClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+            toast({
+                title: 'QR Code Uploaded!',
+                description: `File "${file.name}" selected. Simulating scan.`,
+                variant: 'success'
+            });
+            // Simulate scanning the uploaded QR code
+            setUpiId('uploaded-qr@paymate');
+            setUpiAmount('550');
+            setActiveTab('upi');
+        }
     };
 
     return (
@@ -143,9 +163,10 @@ export default function TransferPage() {
                      <Card className="shadow-lg border-none">
                         <CardHeader>
                             <CardTitle>Scan & Pay</CardTitle>
-                            <CardDescription>Point your camera at a UPI QR code to pay.</CardDescription>
+                            <CardDescription>Point your camera at a UPI QR code, or upload an image to pay.</CardDescription>
                         </CardHeader>
                         <CardContent className="flex flex-col items-center justify-center space-y-4 p-6">
+                            <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/png, image/jpeg, image/gif" />
                             <div className="relative w-full aspect-video max-w-md bg-muted rounded-lg overflow-hidden border-2 border-dashed flex items-center justify-center">
                                 <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
                                 {hasCameraPermission === false && (
@@ -167,10 +188,16 @@ export default function TransferPage() {
                              )}
                         </CardContent>
                         <CardFooter>
-                            <Button className="w-full" size="lg" disabled={!hasCameraPermission} onClick={handleScan}>
-                                <QrCode className="mr-2 h-4 w-4" />
-                                Simulate Scan
-                            </Button>
+                            <div className="w-full flex flex-col sm:flex-row gap-4">
+                                <Button className="w-full" size="lg" disabled={!hasCameraPermission} onClick={handleScan}>
+                                    <QrCode className="mr-2 h-4 w-4" />
+                                    Simulate Scan
+                                </Button>
+                                <Button variant="outline" className="w-full" size="lg" onClick={handleUploadClick}>
+                                    <Upload className="mr-2 h-4 w-4" />
+                                    Upload QR Code
+                                </Button>
+                            </div>
                         </CardFooter>
                     </Card>
                 </TabsContent>
