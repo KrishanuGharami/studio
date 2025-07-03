@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ArrowUpRight, QrCode, User, Repeat } from "lucide-react"
+import { ArrowUpRight, QrCode, User, Repeat, Wallet } from "lucide-react"
 import { SmartSuggestions } from "./smart-suggestions"
 import { RecentTransactions } from "./recent-transactions"
 
@@ -12,38 +12,56 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold tracking-tight">Welcome back, Alex!</h1>
         <p className="text-muted-foreground">Here&apos;s your financial overview for today.</p>
       </header>
-
-      <section>
-        <Card className="shadow-md">
-          <CardHeader>
-            <CardTitle>Send Money</CardTitle>
-            <CardDescription>Quickly send money to your contacts or any UPI ID.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="relative flex-grow">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
-                <Input placeholder="Enter UPI ID or Mobile Number" className="pl-10 h-11" />
+      
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-8">
+          <Card className="shadow-md">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>Current Balance</CardTitle>
+                <CardDescription>Your available funds</CardDescription>
               </div>
-              <Button size="lg">Send <ArrowUpRight className="ml-2" /></Button>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="outline" className="w-full">
-                <QrCode className="mr-2" />
-                Scan QR Code
-              </Button>
-              <Button variant="outline" className="w-full">
-                <Repeat className="mr-2" />
-                Repeat Last Transaction
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
+              <Wallet className="h-8 w-8 text-primary"/>
+            </CardHeader>
+            <CardContent>
+              <p className="text-4xl font-bold">₹75,430.50</p>
+              <p className="text-sm text-muted-foreground mt-1">+2.5% from last month</p>
+            </CardContent>
+          </Card>
 
-      <SmartSuggestions />
-      <RecentTransactions />
+          <Card className="shadow-md">
+            <CardHeader>
+              <CardTitle>Send Money</CardTitle>
+              <CardDescription>Quickly send money to your contacts or any UPI ID.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="relative flex-grow">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
+                  <Input placeholder="Enter UPI ID or Mobile Number" className="pl-10 h-11" />
+                </div>
+                <Button size="lg" className="h-11">Send <ArrowUpRight className="ml-2" /></Button>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button variant="outline" className="w-full">
+                  <QrCode className="mr-2" />
+                  Scan QR Code
+                </Button>
+                <Button variant="outline" className="w-full">
+                  <Repeat className="mr-2" />
+                  Repeat Last Transaction
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
+           <SmartSuggestions />
+        </div>
+
+        <div className="lg:col-span-1">
+          <RecentTransactions />
+        </div>
+      </div>
     </div>
   )
 }

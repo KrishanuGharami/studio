@@ -88,8 +88,8 @@ export default function HistoryPage() {
                                         <p className="text-sm text-muted-foreground">{t.type}</p>
                                     </TableCell>
                                     <TableCell>{new Date(t.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</TableCell>
-                                    <TableCell className={`text-right font-semibold ${t.amount > 0 ? 'text-success' : 'text-foreground'}`}>
-                                        {t.amount > 0 ? `+₹${t.amount.toFixed(2)}` : `₹${Math.abs(t.amount).toFixed(2)}`}
+                                    <TableCell className={`text-right font-semibold ${t.amount > 0 ? 'text-success' : 'text-destructive'}`}>
+                                        {t.amount > 0 ? `+₹${t.amount.toFixed(2)}` : `-₹${Math.abs(t.amount).toFixed(2)}`}
                                     </TableCell>
                                     <TableCell className="text-center">
                                         <Badge variant={getBadgeVariant(t.status)}>{t.status}</Badge>

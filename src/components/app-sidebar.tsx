@@ -10,6 +10,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  SidebarSeparator,
 } from '@/components/ui/sidebar';
 import {
   Home,
@@ -21,7 +22,6 @@ import {
   LogOut,
   Wallet,
 } from 'lucide-react';
-import { Button } from './ui/button';
 
 const menuItems = [
   { href: '/dashboard', label: 'Home', icon: Home },
@@ -64,6 +64,7 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>
+         <SidebarSeparator />
          <SidebarMenu>
             <SidebarMenuItem>
                 <SidebarMenuButton variant="ghost" className="justify-start">

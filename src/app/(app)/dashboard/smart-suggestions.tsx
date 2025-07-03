@@ -103,7 +103,7 @@ export function SmartSuggestions() {
             {suggestions?.suggestedTransactions.map((suggestion, index) => {
                 const Icon = getIcon(suggestion.transactionType);
                 return (
-                    <div key={index} className="p-4 border rounded-lg flex flex-col justify-between gap-4 bg-background hover:bg-accent/20 transition-colors shadow-sm">
+                    <div key={index} className="p-4 border rounded-lg flex flex-col justify-between gap-4 bg-background hover:bg-accent/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1">
                         <div className="flex items-start gap-4">
                             <div className="p-3 bg-primary/10 text-primary rounded-lg">
                                 <Icon className="h-6 w-6" />

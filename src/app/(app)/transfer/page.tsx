@@ -1,11 +1,47 @@
+'use client'
+
+import { useState, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { User, Landmark, QrCode, ArrowUpRight } from "lucide-react"
+import { User, Landmark, QrCode, ArrowUpRight, CameraOff } from "lucide-react"
+import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 export default function TransferPage() {
+    const { toast } = useToast();
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+
+    const enableCamera = async () => {
+        try {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                if (videoRef.current) {
+                    videoRef.current.srcObject = stream;
+                }
+                setHasCameraPermission(true);
+            } else {
+                 setHasCameraPermission(false);
+                 toast({
+                    variant: 'destructive',
+                    title: 'Camera Not Supported',
+                    description: 'Your browser does not support camera access.',
+                });
+            }
+        } catch (error) {
+            console.error('Error accessing camera:', error);
+            setHasCameraPermission(false);
+            toast({
+                variant: 'destructive',
+                title: 'Camera Access Denied',
+                description: 'Please enable camera permissions in your browser settings to scan QR codes.',
+            });
+        }
+    };
+    
     return (
         <div className="p-4 sm:p-6 lg:p-8 h-full">
             <header className="mb-8">
@@ -42,7 +78,7 @@ export default function TransferPage() {
                         <CardHeader>
                             <CardTitle>Send to Bank Account</CardTitle>
                             <CardDescription>Enter recipient's bank details.</CardDescription>
-                        </CardHeader>
+                        </Header>
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
                                 <Label htmlFor="acc-number">Account Number</Label>
@@ -68,13 +104,32 @@ export default function TransferPage() {
                      <Card className="shadow-md">
                         <CardHeader>
                             <CardTitle>Scan & Pay</CardTitle>
-                            <CardDescription>Use your camera to scan a QR code.</CardDescription>
+                            <CardDescription>Use your camera to scan a UPI QR code.</CardDescription>
                         </CardHeader>
-                        <CardContent className="flex flex-col items-center justify-center space-y-6 p-16 bg-muted/30 rounded-lg">
-                            <div className="p-6 bg-background rounded-lg border-2 border-dashed border-muted-foreground/50">
-                                <QrCode className="h-24 w-24 text-muted-foreground" />
+                        <CardContent className="flex flex-col items-center justify-center space-y-4 p-6">
+                            <div className="relative w-full aspect-square max-w-sm bg-muted rounded-lg overflow-hidden border-2 border-dashed flex items-center justify-center">
+                                <video ref={videoRef} className={cn("w-full h-full object-cover transition-opacity", hasCameraPermission ? 'opacity-100' : 'opacity-0')} autoPlay muted playsInline />
+                                
+                                {hasCameraPermission !== true && (
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+                                        {hasCameraPermission === false ? (
+                                            <>
+                                                <CameraOff className="h-16 w-16 text-destructive mb-4"/>
+                                                <p className="font-semibold text-destructive">Camera Disabled</p>
+                                                <p className="text-xs text-muted-foreground">Please grant camera permission.</p>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <QrCode className="h-16 w-16 text-muted-foreground mb-4"/>
+                                                <p className="text-muted-foreground">Click below to start your camera</p>
+                                            </>
+                                        )}
+                                    </div>
+                                )}
                             </div>
-                            <Button size="lg">Open Camera</Button>
+                            <Button size="lg" onClick={enableCamera} disabled={hasCameraPermission === true}>
+                               {hasCameraPermission === true ? 'Scanning...' : 'Open Camera'}
+                            </Button>
                         </CardContent>
                     </Card>
                 </TabsContent>
