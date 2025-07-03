@@ -52,9 +52,10 @@ export default function SupportPage() {
             };
             setMessages(prev => [...prev, botMessage]);
         } catch (error) {
+            console.error('AI Support Chat Error:', error);
             const errorMessage: Message = {
                 id: (Date.now() + 1).toString(),
-                text: 'Sorry, I encountered an error. Please try again later.',
+                text: 'Sorry, I encountered an error. This might be due to a missing AI service API key. Please check your environment configuration.',
                 sender: 'bot',
             };
             setMessages(prev => [...prev, errorMessage]);
