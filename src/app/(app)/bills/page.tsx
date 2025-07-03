@@ -1,16 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Mobile, Wifi, Tv, Droplets, Lightbulb, Flame, Landline, Pipeline } from 'lucide-react'
+import { Smartphone, Wifi, Tv, Droplets, Lightbulb, Flame, Phone, Fuel } from 'lucide-react'
 import Link from "next/link"
 
 const billCategories = [
-  { name: 'Mobile Recharge', icon: Mobile, href: '#' },
+  { name: 'Mobile Recharge', icon: Smartphone, href: '#' },
   { name: 'Broadband', icon: Wifi, href: '#' },
   { name: 'DTH Recharge', icon: Tv, href: '#' },
   { name: 'Water Bill', icon: Droplets, href: '#' },
   { name: 'Electricity', icon: Lightbulb, href: '#' },
   { name: 'Piped Gas', icon: Flame, href: '#' },
-  { name: 'Landline', icon: Landline, href: '#' },
-  { name: 'LPG Cylinder', icon: Pipeline, href: '#' },
+  { name: 'Landline', icon: Phone, href: '#' },
+  { name: 'LPG Cylinder', icon: Fuel, href: '#' },
 ];
 
 
