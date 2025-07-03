@@ -35,12 +35,7 @@ const menuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  // Defer setting the name to the client-side to avoid hydration mismatch
-  const [userName, setUserName] = React.useState('Alex Turner');
-
-  React.useEffect(() => {
-    setUserName('Krishanu Gharami');
-  }, []);
+  const [userName] = React.useState('Krishanu Gharami');
 
   return (
     <Sidebar>
