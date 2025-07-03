@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useState } from 'react'
@@ -34,7 +35,6 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
     }
 
     try {
-        // Mock API call to create a payment intent
         const response = await fetch('/api/payment/stripe/create-payment-intent', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -47,6 +47,18 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
 
         const { clientSecret } = await response.json();
 
+        // If we are using a mock secret, bypass the Stripe confirmation
+        // and simulate a successful payment.
+        if (clientSecret.startsWith('mock_pi_')) {
+            console.log("Mock payment successful for Stripe.");
+            toast({
+                variant: 'success',
+                title: 'Payment Successful!',
+                description: `Mock Payment ID: ${clientSecret.split('_secret_')[0]}`,
+            });
+            setIsLoading(false);
+            return;
+        }
 
         const cardElement = elements.getElement(CardElement)
         if (!cardElement) {
@@ -55,23 +67,23 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
         }
 
         const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-            card: cardElement,
-        },
-        })
+            payment_method: {
+                card: cardElement,
+            },
+        });
 
         if (error) {
-        toast({
-            variant: 'destructive',
-            title: 'Payment failed',
-            description: error.message,
-        })
+            toast({
+                variant: 'destructive',
+                title: 'Payment failed',
+                description: error.message,
+            });
         } else if (paymentIntent.status === 'succeeded') {
-        toast({
-            variant: 'success',
-            title: 'Payment Successful!',
-            description: `Payment ID: ${paymentIntent.id}`,
-        })
+            toast({
+                variant: 'success',
+                title: 'Payment Successful!',
+                description: `Payment ID: ${paymentIntent.id}`,
+            });
         }
     } catch (e: any) {
          toast({
