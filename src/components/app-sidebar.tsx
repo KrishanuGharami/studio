@@ -35,7 +35,12 @@ const menuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const [userName] = React.useState('Krishanu Gharami');
+  const [userName, setUserName] = React.useState('Krishanu Gharami');
+
+  React.useEffect(() => {
+    // This is to prevent hydration mismatch
+    setUserName('Krishanu Gharami');
+  }, []);
 
   return (
     <Sidebar>
@@ -81,9 +86,11 @@ export function AppSidebar() {
                 </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-                <SidebarMenuButton variant="ghost" className="justify-start text-destructive hover:text-destructive">
-                    <LogOut/>
-                    <span>Logout</span>
+                <SidebarMenuButton asChild variant="ghost" className="justify-start text-destructive hover:text-destructive">
+                    <Link href="/login">
+                        <LogOut/>
+                        <span>Logout</span>
+                    </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>
          </SidebarMenu>
